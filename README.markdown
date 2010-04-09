@@ -33,6 +33,6 @@ A) Setup cronjobs to run 'rake google_base:generate' and 'rake google_base:trans
 
 B) Setup cronjob to run 'rake google_base:generate' and schedule the file to be uploaded via Google Base admin from public_domain/google_base.xml
 
-Development of this extension is sponsored by [End Point][1] to learn more about spree.
+Development of this extension is sponsored by [End Point][1].
 
 [1]: http://www.endpoint.com/
