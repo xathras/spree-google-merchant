@@ -14,7 +14,7 @@
   </div>    
 <% @taxons.each do |taxon| -%>
   <p>
-    <label for="<%= taxon.name %>"><%= taxon.name %></label>
+    <label><%= taxon.name %></label>
     <%= text_field(:priority, taxon.id, :value => taxon.taxon_map.priority.to_s, :class => 'priority') %>
     <%= text_field(:tax_id, taxon.id, :value => taxon.taxon_map.product_type, :class => 'category') %>
   </p>

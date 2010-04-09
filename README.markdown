@@ -10,21 +10,18 @@ INSTALLATION
 
 1. Create google base account. Create google base ftp account (if applicable). Create data feed in google base with a type "Products" and name "google_base.xml".
 
-2. Clone the git repo to SPREE_ROOT/vendor/extensions/google_base or install the extension
+2. Install the extension with one of the following commands
 
       git clone git://github.com/stephp/spree-google-base.git google_base
-
       script/extension install git://github.com/stephp/spree-google-base.git
 
 2. Run rake db:migrate from SPREE_ROOT
 
-3. Edit product_type, priorities in spree admin.
+3. Edit product_type, priorities in spree admin (/admin/taxon_mapper).
 
 4. Edit SPREE_ROOT/vendor/extensions/google_base/lib/google_base_configuration.rb to set preferences for the feed title, public domain, feed description, ftp login and password. FTP login is not required - you may schedule upload from the public directory.
 
-5. Set RAILS_ENV to production
-
-6. Run rake google_base:generate to generate feed. Verify feed exists (SPREE_ROOT/public/google_base.xml).
+5. Issue the command 'rake google_base:generate' to generate feed. Verify feed exists (SPREE_ROOT/public/google_base.xml).
 
 
 CRONJOBS
@@ -36,6 +33,6 @@ A) Setup cronjobs to run 'rake google_base:generate' and 'rake google_base:trans
 
 B) Setup cronjob to run 'rake google_base:generate' and schedule the file to be uploaded via Google Base admin from public_domain/google_base.xml
 
-Refer to [spree: ruby on rails ecommerce][1] to learn more about spree.
+Development of this extension is sponsored by [End Point][1] to learn more about spree.
 
-[1]: http://spreecommerce.com/
+[1]: http://www.endpoint.com/
