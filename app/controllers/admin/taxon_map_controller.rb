@@ -1,4 +1,4 @@
-class Admin::TaxonMapperController < Admin::BaseController
+class Admin::TaxonMapController < Admin::BaseController
   resource_controller
 
   def index
@@ -12,12 +12,15 @@ class Admin::TaxonMapperController < Admin::BaseController
     end
   end
 
-  def update
+  def create
     TaxonMap.delete(TaxonMap.find(:all))
     params[:tax_id].each do |k, v|
       taxon_map = TaxonMap.new(:product_type => v, :taxon_id => k, :priority => params[:priority][k].to_i || 0)
       taxon_map.save
     end
-    redirect_to admin_taxon_mapper_index_url
+    if TaxonMap.count == params[:tax_id].size
+      flash[:notice] = "Google Base taxons mapping saved successfully."
+    end
+    redirect_to admin_taxon_map_index_url
   end
 end

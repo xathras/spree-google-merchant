@@ -1,3 +1,5 @@
-map.namespace :admin do |admin|
-  admin.resources :taxon_mapper
-end  
+Rails.application.routes.draw do
+  namespace :admin do
+    resources :taxon_map
+  end
+end
