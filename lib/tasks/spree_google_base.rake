@@ -18,20 +18,8 @@ namespace :spree_google_base do
   
 end
 
-def _get_product_type(product)
-  product_type = ''
-  priority = -1000
-  product.taxons.each do |taxon|
-    if taxon.taxon_map && taxon.taxon_map.priority > priority
-      priority = taxon.taxon_map.priority
-      product_type = taxon.taxon_map.product_type
-    end
-  end
-  product_type
-end
-
 def _filter_xml(output)
-  fields = ['price', 'brand', 'condition', 'image_link', 'product_type', 'id', 'quantity', 'mpn']
+  fields = GOOGLE_BASE_FILTERED_ATTRS
   0.upto(fields.length - 1) { |i| output = output.gsub(fields[i] + '>', 'g:' + fields[i] + '>') }
   output
 end
@@ -44,20 +32,12 @@ def _build_xml
       xml.title Spree::GoogleBase::Config[:google_base_title] || ''
       xml.link @public_dir
       xml.description Spree::GoogleBase::Config[:google_base_desc] || ''
-      Product.find(:all, :include => [ :images, :taxons ]).each do |product|
+      Product.google_base_scope.each do |product|
         xml.item {
-          xml.id product.id.to_s
-          xml.mpn product.sku.to_s	#remove if the sku is not the same as the manufacturer's part number
-          xml.title product.name
-          xml.link @public_dir + 'products/' + product.permalink
-          xml.description CGI.escapeHTML(product.description)
-          xml.price product.master_price
-          xml.condition 'new'
-          xml.image_link @public_dir.sub(/\/$/, '') + product.images.first.attachment.url(:product) unless product.images.empty?
-          xml.product_type _get_product_type(product)
-          #TODO: xml.quantity, xml.brand
-          
-          #See http://base.google.com/support/bin/answer.py?answer=73932&hl=en for all other fields
+          GOOGLE_BASE_ATTR_MAP.each do |k, v|
+             value = product.send(v)
+             xml.tag!(k, value.to_s) unless value.nil?
+          end
         }
       end
     }
