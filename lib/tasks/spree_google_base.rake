@@ -11,7 +11,7 @@ namespace :spree_google_base do
   
   task :transfer => :environment do
     ftp = Net::FTP.new('uploads.google.com')
-    ftp.login(Spree::GoogleBase::Config[:google_base_ftp_username], Spree::GoogleBase::Config[:google_base_ftp_password])
+    ftp.login(Spree::GoogleBase::Config[:ftp_username], Spree::GoogleBase::Config[:ftp_password])
     ftp.put("#{RAILS_ROOT}/public/google_base.xml", 'google_base.xml')
     ftp.quit() 
   end
@@ -29,9 +29,9 @@ def _build_xml
     @public_dir = Spree::GoogleBase::Config[:public_domain] || ''
     xml = Builder::XmlMarkup.new(:target => output, :indent => 2, :margin => 1)
     xml.channel {
-      xml.title Spree::GoogleBase::Config[:google_base_title] || ''
+      xml.title Spree::GoogleBase::Config[:title] || ''
       xml.link @public_dir
-      xml.description Spree::GoogleBase::Config[:google_base_desc] || ''
+      xml.description Spree::GoogleBase::Config[:description] || ''
       Product.google_base_scope.each do |product|
         xml.item {
           GOOGLE_BASE_ATTR_MAP.each do |k, v|

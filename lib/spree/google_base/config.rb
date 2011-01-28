@@ -14,7 +14,7 @@ module Spree
       class << self
         def instance
           return nil unless ActiveRecord::Base.connection.tables.include?('configurations')
-          GoogleBaseConfiguration.find_or_create_by_name("Default google base configuration")
+          GoogleBaseConfiguration.find_or_create_by_name("Google Base configuration")
         end
       end
     end

@@ -1,0 +1,11 @@
+en:
+  google_base:
+    export_settings: "Google Base Export Settings"
+    title: "Title"
+    public_domain: "Public Domain"
+    description: "Description"
+    ftp_username: "FTP user name"
+    ftp_password: "FTP password"
+    manage_taxon_mapping: "Manage taxon mapping"
+    enable_taxon_mapping: "Enable taxon mapping"
+
