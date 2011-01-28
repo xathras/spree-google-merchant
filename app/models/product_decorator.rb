@@ -4,7 +4,7 @@ Product.class_eval do
   protected
   
   def google_base_description
-    CGI.escapeHTML(self.description)
+    self.description
   end
   
   def google_base_condition
@@ -26,6 +26,7 @@ Product.class_eval do
   end
 
   def google_base_product_type
+    return nil unless Spree::GoogleBase::Config[:enable_taxon_mapping]
     product_type = ''
     priority = -1000
     self.taxons.each do |taxon|
