@@ -19,9 +19,17 @@ INSTALLATION
 
 3. Edit product_type, priorities in spree admin (/admin/taxon_map).
 
-4. Set preferences (can be found in spree_google_base/lib/google_base_configuration.rb)  for the feed title, public domain, feed description, ftp login and password. FTP login is not required - you may schedule upload from the public directory.
+4. Set preferences in spree admin panel (/admin/google_base_settings) for the feed title, public domain, feed description, ftp login and password. FTP login is not required - you may schedule upload from the public directory.
 
 5. Issue the command 'rake spree_google_base:generate' to generate feed. Verify feed exists (YOUR_APP_ROOT/public/google_base.xml).
+
+
+ADVANCED CONFIGURATION
+------------
+
+You can modify fields set for export and list of 'g:' attributes. Look at config/initializers/google_base.rb
+You can override values of GOOGLE_BASE_ATTR_MAP and GOOGLE_BASE_FILTERED_ATTRS arrays with help of Array#delete, Array#delete_at, Array#<<, Array#+=, etc.
+Also you can override methods from product_decorator.rb in your site extension.
 
 
 CRONJOBS
