@@ -10,7 +10,9 @@ module SpreeGoogleBase
       Dir.glob(File.join(File.dirname(__FILE__), "../app/**/*_decorator*.rb")) do |c|
         Rails.env.production? ? require(c) : load(c)
       end
-      Taxon.has_one :taxon_map
+      if Spree::Config.instance
+        Taxon.has_one :taxon_map
+      end
     end
 
     config.to_prepare &method(:activate).to_proc
