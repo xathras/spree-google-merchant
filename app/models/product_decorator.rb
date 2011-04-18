@@ -1,6 +1,10 @@
 Product.class_eval do
   scope :google_base_scope, includes(:taxons, :images)
   
+  def base_instance_store=(store)
+    @store = store
+  end
+  
   protected
   
   def google_base_description
@@ -12,12 +16,12 @@ Product.class_eval do
   end
 
   def google_base_link
-    public_dir = Spree::GoogleBase::Config[:public_domain] || ''
+    public_dir = @store.domains.match(/[\w\.]+/).to_s
     [public_dir.sub(/\/$/, ''), 'products', self.permalink].join('/')
   end
   
   def google_base_image_link
-    public_dir = Spree::GoogleBase::Config[:public_domain] || ''
+    public_dir = @store.domains.match(/[\w\.]+/).to_s
     if self.images.empty?
       nil
     else
