@@ -2,19 +2,19 @@ require 'net/ftp'
 
 namespace :spree_google_base do
 
-  task :generate, :site_code => :environment do |t, args|
+  task :generate, [:site_code] => [:environment] do |t, args|
     site_code = args[:site_code]
   
     generate_google_base_xml_to("#{RAILS_ROOT}/public/google_base_#{site_code}.xml", site_code)
   end
   
-  task :transfer, :site_code => :environment do
+  task :transfer, [:site_code] => [:environment] do
     site_code = args[:site_code]
     
     transfer_google_base_xml_from("#{RAILS_ROOT}/public/google_base.xml", site_code)
   end
   
-  task :generate_and_transfer, :site_code => :environment do |t, args|
+  task :generate_and_transfer, [:site_code] => [:environment] do |t, args|
     site_code = args[:site_code]
   
     path = "#{RAILS_ROOT}/tmp/google_base_#{site_code}.xml"
