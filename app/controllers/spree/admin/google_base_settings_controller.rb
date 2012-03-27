@@ -1,5 +1,5 @@
-class Admin::GoogleBaseSettingsController < Admin::BaseController
-  helper :google_base
+class Spree::Admin::GoogleBaseSettingsController < Spree::Admin::BaseController
+  helper 'spree/admin/google_base'
   
   def update
     config = Spree::GoogleBase::Config.instance

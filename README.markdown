@@ -1,9 +1,11 @@
 SpreeGoogleBase
 ===============
 
-This extension allows you to use Google Base to list products for free that will appear in Google Product Search (http://www.froogle.com/).
+This extension allows you to use Google Base to list products for free that will appear in Google Product Search (http://www.google.com/shopping).
 
-<a href="http://base.google.com/support/bin/answer.py?answer=25277&topic=2904">Learn more about Google Base</a>
+[Learn more about Google Base](http://support.google.com/merchants/bin/answer.py?hl=en&answer=160540)
+
+For product feed field definitions, (consult http://support.google.com/merchants/bin/answer.py?hl=en&answer=188494#US)
 
 INSTALLATION
 ------------
@@ -12,12 +14,12 @@ INSTALLATION
 
 2. Install the extension with one of the following commands
 
-      Add `gem "spree_google_base"`
+      Add `gem "spree_google_base", :git => 'git://github.com/jumph4x/spree-google-base.git'` to Gemfile
       Run `bundle install`
+      Run `rails g spree_google_base:install`
       Run `rake db:migrate`
-      Run `rake spree_google_base:install`
 
-3. Edit product_type, priorities in spree admin (/admin/taxon_map).
+3. Edit product_type, priorities in spree admin (/admin/taxon_map)
 
 4. Set preferences in spree admin panel (/admin/google_base_settings) for the feed title, public domain, feed description, ftp login and password. FTP login is not required - you may schedule upload from the public directory.
 
