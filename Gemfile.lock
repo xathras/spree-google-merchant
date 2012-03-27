@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/spree/spree-multi-domain.git
-  revision: 7b35ebbd88c6b64d0ad56ba7ecde64b67a254092
+  revision: 55901c6a789b608a195243274eb00f27b30a7e64
   specs:
     spree_multi_domain (1.0.0)
       spree_core (~> 1.0.3)
