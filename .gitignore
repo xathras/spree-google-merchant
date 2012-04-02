@@ -1,2 +1,2 @@
-spec/test_app
-Gemfile
+spec/dummy
+spec/dummy/*

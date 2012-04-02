@@ -1,6 +1,6 @@
-require File.dirname(__FILE__) + '/../spec_helper'
+require 'spec_helper'
 
-describe Taxon do
+describe Spree::Taxon do
 
   context "shoulda validations" do
     it { should have_one(:taxon_map) }

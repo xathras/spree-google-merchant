@@ -1,15 +1,12 @@
 # See http://base.google.com/support/bin/answer.py?hl=en&answer=78170 for all other fields
 GOOGLE_BASE_ATTR_MAP = [
-  ['id', 'id'],
-  ['mpn', 'sku'],
+  ['g:id', 'id'],
+  ['g:mpn', 'sku'],
   ['title', 'name'],
-  ['link', 'google_base_link'],
   ['description', 'google_base_description'],
-  ['price', 'master_price'],
-  ['condition', 'google_base_condition'],
-  ['image_link', 'google_base_image_link'],
-  ['product_type', 'google_base_product_type']
+  ['g:price', 'price'],
+  ['g:condition', 'google_base_condition'],
+  ['g:product_type', 'google_base_product_type'],
+#  ['g:brand', 'google_base_brand'],
+  ['g:quantity','on_hand']
 ]
-
-
-GOOGLE_BASE_FILTERED_ATTRS = ["brand", "condition", "id", "image_link", "mpn", "price", "product_type", "quantity"]
