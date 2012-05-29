@@ -2,9 +2,10 @@ class Spree::Admin::GoogleBaseSettingsController < Spree::Admin::BaseController
   helper 'spree/admin/google_base'
   
   def update
-    config = Spree::GoogleBase::Config.instance
-    config.update_attributes(params[:google_base_configuration])
-    Rails.cache.delete("configuration_#{config.id}".to_sym)
+    params.each do |name, value|
+      next unless Spree::GoogleBase::Config.has_preference? name
+      Spree::GoogleBase::Config[name] = value
+    end
     
     respond_to do |format|
       format.html {

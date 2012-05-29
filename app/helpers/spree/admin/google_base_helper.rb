@@ -11,14 +11,13 @@ module Spree
         </tr>).html_safe
       end
       
-      def setting_field(form, setting)
-        definition = Spree::GoogleBaseConfiguration.preference_definitions[setting.to_s]
-        type = definition.instance_eval('@type').to_sym
-        %(
-        <p>
-          #{form.label("preferred_#{setting}", I18n.t(setting, :scope => :google_base))}:<br />
-          #{preference_field(form, "preferred_#{setting}", :type => type)}
-        </p>).html_safe
+      def setting_field(setting)
+        type = Spree::GoogleBase::Config.preference_type(setting)
+        res = ''
+        res += label_tag(setting, t(setting) + ': ') + tag(:br) if type != :boolean
+        res += preference_field_tag(setting, Spree::GoogleBase::Config[setting], :type => type)
+        res += label_tag(setting, t(setting)) + tag(:br) if type == :boolean
+        res.html_safe
       end
     end
   end
