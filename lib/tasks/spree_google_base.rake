@@ -57,7 +57,7 @@ def _build_xml(site_code)
       xml.title @store.name
       xml.link @public_dir
       #xml.description Spree::GoogleBase::Config[:description] || ''
-      Product.send("google_base_scope_for_#{@store.code}").each do |product|
+      Product.send("google_base_scope_for_#{@store.code}").find_each do |product|
         xml.item {
           GOOGLE_BASE_ATTR_MAP.each do |k, v|
              product.base_instance_store = @store
