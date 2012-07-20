@@ -92,7 +92,7 @@ module SpreeGoogleBase
       xml.channel do
         build_meta(xml)
         
-        scope.each do |product|
+        scope.find_each do |product|
           build_product(xml, product)
         end
       end
