@@ -21,7 +21,7 @@ module SpreeGoogleBase
     end
     
     def initialize(opts = {})
-      raise "Please pass a the public address as second argument, or configure :public_path in Spree::GoogleBase::Config" unless opts[:store].present? or (opts[:path].present? or Spree::GoogleBase::Config[:public_domain])
+      raise "Please pass a public address as the second argument, or configure :public_path in Spree::GoogleBase::Config" unless opts[:store].present? or (opts[:path].present? or Spree::GoogleBase::Config[:public_domain])
 
       @store = opts[:store] if opts[:store].present?
       @scope = @store ? Spree::Product.by_store(@store).google_base_scope.scoped : Spree::Product.google_base_scope.scoped
