@@ -17,7 +17,7 @@ module SpreeGoogleBase
     config.to_prepare &method(:activate).to_proc
     
     initializer "spree_google_base.attr_map" do |app|
-      # See http://base.google.com/support/bin/answer.py?hl=en&answer=78170 for all other fields
+      # See http://support.google.com/merchants/bin/answer.py?hl=en&answer=188494#US for all other fields
       GOOGLE_BASE_ATTR_MAP = [
         ['g:id', 'id'],
         ['g:mpn', 'sku'],
