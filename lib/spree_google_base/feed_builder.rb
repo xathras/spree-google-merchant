@@ -12,7 +12,7 @@ module SpreeGoogleBase
           self.new(store)
         end
       else
-        self.new
+        [self.new]
       end
       
       builders.each do |builder|
