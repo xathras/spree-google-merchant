@@ -1,7 +1,12 @@
 # This file is copied to ~/spec when you run 'ruby script/generate rspec'
 # from the project root directory.
 ENV["RAILS_ENV"] ||= 'test'
-require File.expand_path("../dummy/config/environment.rb",  __FILE__)
+begin
+  require File.expand_path("../dummy/config/environment.rb",  __FILE__)
+rescue LoadError
+  puts "Having trouble loading the environment, try running: bundle exec rake test_app"
+  exit
+end
 require 'rspec/rails'
 
 # Requires supporting ruby files with custom matchers and macros, etc,
