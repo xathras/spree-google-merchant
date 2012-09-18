@@ -17,10 +17,26 @@ describe Spree::Product do
       product.google_base_description.should_not be_nil
     end
     
-    it 'should have google_base_link' do
-      product.google_base_link.should_not be_nil
-    end
+    context 'w/ Brand property defined' do
+      # Taken from the core filters parametrized example
+      # /core/lib/spree/product_filters.rb
+      #
+      before do
+        property = Factory(:property, :name => 'brand')
+        Factory(:product_property, :value => 'Brand Name', :property_name => 'brand', :product => product)
+      end
     
+      it 'should have a google brand' do
+        product.google_base_brand.should == 'Brand Name'
+      end
+    end
+
+    context 'w/out properties' do
+      it 'should have a google brand' do
+        product.google_base_brand.should be_nil
+      end
+    end
+
     context 'with enabled taxon mapping' do
       before do
         Spree::GoogleBase::Config.set :enable_taxon_mapping => true
@@ -44,11 +60,18 @@ describe Spree::Product do
     
     context 'with images' do
       before(:each) do
-        Factory(:image, :viewable => product)
+        image = Factory(:image, :viewable => product)
         product.reload
+
+        Spree::GoogleBase::Config.set(:public_domain => 'http://mydomain.com')
       end
+
       specify { product.google_base_image_link.should_not be_nil }
-      specify { product.google_base_image_link.should == [Spree::GoogleBase::Config[:public_domain], "attachments/product/missing.png"].join }
+
+      it 'should output the image url with the specified domain' do
+        image_link = product.google_base_image_link
+        image_link.should == "#{Spree::GoogleBase::Config[:public_domain]}#{product.images[0].attachment.url(:product)}"
+      end
     end
     
   end

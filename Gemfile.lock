@@ -9,7 +9,7 @@ PATH
   remote: .
   specs:
     spree_google_base (1.0.0)
-      spree (~> 1.0.3)
+      spree (~> 1.0)
 
 GEM
   remote: http://rubygems.org/

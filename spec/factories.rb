@@ -1,4 +1,6 @@
 Factory.define(:image, :class => Spree::Image) do |f|
+  f.attachment_content_type 'image/jpg'
+  f.attachment_file_name 'something_filename.jpg'
 end
 
 Factory.sequence(:custom_product_sequence) {|n| "Product ##{n} - #{rand(9999)}"}

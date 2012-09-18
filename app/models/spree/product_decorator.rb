@@ -11,7 +11,24 @@ module Spree
     end
 
     def google_base_image_link
-      images.first.attachment.url(:product)
+      image = images.first and
+      image_path = image.attachment.url(:product) and
+      [Spree::GoogleBase::Config[:public_domain], image_path].join
+    end
+
+    def google_base_brand
+      # Taken from github.com/romul/spree-solr-search
+      # app/models/spree/product_decorator.rb
+      #
+      pp = Spree::ProductProperty.first(
+        :joins => :property, 
+        :conditions => {
+          :product_id => self.id,
+          :spree_properties => {:name => 'brand'}
+        }
+      )
+
+      pp ? pp.value : nil
     end
 
     def google_base_product_type

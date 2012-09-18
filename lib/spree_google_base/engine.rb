@@ -6,19 +6,9 @@ module SpreeGoogleBase
 
     initializer "spree.google_base.environment", :before => :load_config_initializers do |app|
       Spree::GoogleBase::Config = Spree::GoogleBaseConfiguration.new
-    end
-
-    def self.activate
-      Dir.glob(File.join(File.dirname(__FILE__), "../../app/**/*_decorator*.rb")) do |c|
-        Rails.application.config.cache_classes ? require(c) : load(c)
-      end
-    end
-
-    config.to_prepare &method(:activate).to_proc
-    
-    initializer "spree_google_base.attr_map" do |app|
+      
       # See http://support.google.com/merchants/bin/answer.py?hl=en&answer=188494#US for all other fields
-      GOOGLE_BASE_ATTR_MAP = [
+      SpreeGoogleBase::FeedBuilder::GOOGLE_BASE_ATTR_MAP = [
         ['g:id', 'id'],
         ['g:mpn', 'sku'],
         ['title', 'name'],
@@ -30,5 +20,14 @@ module SpreeGoogleBase
         ['g:quantity','on_hand']
       ]
     end
+
+    def self.activate
+      Dir.glob(File.join(File.dirname(__FILE__), "../../app/**/*_decorator*.rb")) do |c|
+        Rails.application.config.cache_classes ? require(c) : load(c)
+      end
+    end
+
+    config.to_prepare &method(:activate).to_proc
+    
   end
 end
