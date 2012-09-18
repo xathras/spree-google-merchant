@@ -2,7 +2,18 @@ require 'spec_helper'
 
 describe SpreeGoogleBase::FeedBuilder do
   
-  describe 'an instance' do
+  describe 'as class' do
+    context '#builders should return an array for each store' do
+      Spree::Store.delete_all
+      Factory :store, :domains => 'www.mystore.com', :code => 'first', :name => 'Goodies, LLC'
+      Factory :store, :domains => 'www.anotherstore.com', :code => 'second', :name => 'Gifts, LLC'
+
+      builders = SpreeGoogleBase::FeedBuilder.builders
+      builders.size.should == 2
+    end
+  end
+
+  describe 'as instance' do
   
     describe 'in general' do
       before(:each) do

@@ -7,19 +7,19 @@ module SpreeGoogleBase
     attr_reader :store, :domain, :scope, :title, :output
     
     def self.generate_and_transfer
-      builders = if defined?(Spree::Store)
-        Spree::Store.map do |store|
-          self.new(store)
-        end
-      else
-        [self.new]
-      end
-      
-      builders.each do |builder|
+      self.builders.each do |builder|
         builder.generate_and_transfer_store
       end
     end
     
+    def self.builders
+      if defined?(Spree::Store)
+        Spree::Store.all.map{ |store| self.new(store) }
+      else
+        [self.new]
+      end
+    end
+
     def initialize(opts = {})
       raise "Please pass a public address as the second argument, or configure :public_path in Spree::GoogleBase::Config" unless opts[:store].present? or (opts[:path].present? or Spree::GoogleBase::Config[:public_domain])
 
@@ -40,9 +40,13 @@ module SpreeGoogleBase
     end
     
     def path
-      "#{::Rails.root}/tmp/google_base_v#{@store.try(:code)}.xml"
+      "#{::Rails.root}/tmp/#{filename}"
     end
     
+    def filename
+      "google_base_v#{@store.try(:code)}.xml"
+    end
+
     def generate_xml
       results =
       "<?xml version=\"1.0\"?>
