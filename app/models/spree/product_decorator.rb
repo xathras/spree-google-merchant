@@ -1,6 +1,6 @@
 module Spree
   Product.class_eval do
-    scope :google_base_scope, includes(:taxons, :images)
+    scope :google_base_scope, includes(:taxons, {:master => :images})
     
     def google_base_description
       description
