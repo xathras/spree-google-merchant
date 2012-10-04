@@ -51,7 +51,7 @@ module SpreeGoogleBase
       results =
       "<?xml version=\"1.0\"?>
       <rss version=\"2.0\" xmlns:g=\"http://base.google.com/ns/1.0\">
-      #{build_xml(store)}
+      #{build_xml}
       </rss>"
       
       File.open(path, "w") do |io|
@@ -66,7 +66,7 @@ module SpreeGoogleBase
       ftp = Net::FTP.new('uploads.google.com')
       ftp.passive = true
       ftp.login(Spree::GoogleBase::Config[:ftp_username], Spree::GoogleBase::Config[:ftp_password])
-      ftp.put(path, "google_base.xml")
+      ftp.put(path, filename)
       ftp.quit
     end
     
