@@ -86,7 +86,7 @@ module SpreeGoogleBase
     def build_product(xml, product)
       xml.item do
         xml.tag!('link', product_path(product.permalink, :host => domain))
-        xml.tag!('g:image_link', "#{domain}/" + product.images[0].attachment.url(:large)) if product.images.any?
+        build_images(xml, product)
         
         GOOGLE_BASE_ATTR_MAP.each do |k, v|
           value = product.send(v)
@@ -95,6 +95,24 @@ module SpreeGoogleBase
       end
     end
     
+    def build_images(xml, product)
+      main_image, *more_images = product.master.images
+
+      return unless main_image
+      xml.tag!('g:image_link', image_url(main_image))
+
+      more_images.each do |image|
+        xml.tag!('g:additional_image_link', image_url(image))
+      end
+    end
+
+    def image_url image
+      base_url = image.attachment.url(:large)
+      base_url = "#{domain}/#{base_url}" unless Spree::Config[:use_s3]
+
+      base_url
+    end
+
     def build_meta(xml)
       xml.title @title
       xml.link @domain
