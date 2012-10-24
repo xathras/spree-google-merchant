@@ -4,7 +4,7 @@ module SpreeGoogleBase
   class FeedBuilder
     include Spree::Core::Engine.routes.url_helpers
     
-    attr_reader :store, :domain, :scope, :title, :output
+    attr_reader :store, :domain, :scope, :title
     
     def self.generate_and_transfer
       self.builders.each do |builder|
@@ -14,7 +14,7 @@ module SpreeGoogleBase
     
     def self.builders
       if defined?(Spree::Store)
-        Spree::Store.all.map{ |store| self.new(store) }
+        Spree::Store.all.map{ |store| self.new(:store => store) }
       else
         [self.new]
       end
@@ -29,11 +29,10 @@ module SpreeGoogleBase
       
       @domain = @store ? @store.domains.match(/[\w\.]+/).to_s : opts[:path]
       @domain ||= Spree::GoogleBase::Config[:public_domain]
-      
-      @output = ''
     end
     
     def generate_and_transfer_store
+      delete_xml_if_exists
       generate_xml
       transfer_xml
       cleanup_xml
@@ -47,15 +46,25 @@ module SpreeGoogleBase
       "google_base_v#{@store.try(:code)}.xml"
     end
 
+    def delete_xml_if_exists
+      File.delete(path) if File.exists?(path)
+    end
+
     def generate_xml
-      results =
-      "<?xml version=\"1.0\"?>
-      <rss version=\"2.0\" xmlns:g=\"http://base.google.com/ns/1.0\">
-      #{build_xml}
-      </rss>"
-      
-      File.open(path, "w") do |io|
-        io.puts(results)
+      File.open(path, 'w') do |file| 
+
+        xml = Builder::XmlMarkup.new(:target => file)
+        xml.instruct!
+
+        xml.rss(:version => '2.0', :"xmlns:g" => "http://base.google.com/ns/1.0") do
+          xml.channel do
+            build_meta(xml)
+            
+            scope.find_each(:batch_size => 300) do |product|
+              build_product(xml, product)
+            end
+          end
+        end
       end
     end
     
@@ -89,19 +98,6 @@ module SpreeGoogleBase
     def build_meta(xml)
       xml.title @title
       xml.link @domain
-    end
-    
-    def build_xml
-      xml = Builder::XmlMarkup.new(:target => output, :indent => 2, :margin => 1)
-      xml.channel do
-        build_meta(xml)
-        
-        scope.find_each do |product|
-          build_product(xml, product)
-        end
-      end
-      
-      xml
     end
     
   end
