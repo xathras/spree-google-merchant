@@ -9,6 +9,10 @@ module Spree
     def google_base_condition
       'new'
     end
+    
+    def google_base_availability
+      'in stock'
+    end
 
     def google_base_image_link
       image = images.first and
