@@ -36,7 +36,8 @@ module Spree
     end
 
     def google_base_product_type
-      return nil unless Spree::GoogleBase::Config[:enable_taxon_mapping]
+      return google_base_taxon_type unless Spree::GoogleBase::Config[:enable_taxon_mapping]
+
       product_type = ''
       priority = -1000
       self.taxons.each do |taxon|
@@ -46,6 +47,12 @@ module Spree
         end
       end
       product_type
+    end
+
+    def google_base_taxon_type
+      return unless taxons.any?
+
+      taxons[0].self_and_ancestors.map(&:name).join(" > ")
     end
   end
 end
