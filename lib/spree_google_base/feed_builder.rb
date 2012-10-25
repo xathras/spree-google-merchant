@@ -4,7 +4,7 @@ module SpreeGoogleBase
   class FeedBuilder
     include Spree::Core::Engine.routes.url_helpers
     
-    attr_reader :store, :domain, :scope, :title
+    attr_reader :store, :domain, :title
     
     def self.generate_and_transfer
       self.builders.each do |builder|
@@ -25,16 +25,27 @@ module SpreeGoogleBase
         opts[:store].present? or (opts[:path].present? or Spree::GoogleBase::Config[:public_domain])
 
       @store = opts[:store] if opts[:store].present?
-      @scope = @store ? Spree::Product.by_store(@store).google_base_scope.scoped : Spree::Product.google_base_scope.scoped
       @title = @store ? @store.name : Spree::GoogleBase::Config[:store_name]
       
       @domain = @store ? @store.domains.match(/[\w\.]+/).to_s : opts[:path]
       @domain ||= Spree::GoogleBase::Config[:public_domain]
     end
     
+    def ar_scope
+      if @store
+        Spree::Product.by_store(@store).google_base_scope.scoped
+      else
+        Spree::Product.google_base_scope.scoped
+      end
+    end
+
     def generate_and_transfer_store
       delete_xml_if_exists
-      generate_xml
+
+      File.open(path, 'w') do |file| 
+        generate_xml file
+      end
+
       transfer_xml
       cleanup_xml
     end
@@ -51,19 +62,16 @@ module SpreeGoogleBase
       File.delete(path) if File.exists?(path)
     end
 
-    def generate_xml
-      File.open(path, 'w') do |file| 
+    def generate_xml output
+      xml = Builder::XmlMarkup.new(:target => output)
+      xml.instruct!
 
-        xml = Builder::XmlMarkup.new(:target => file)
-        xml.instruct!
-
-        xml.rss(:version => '2.0', :"xmlns:g" => "http://base.google.com/ns/1.0") do
-          xml.channel do
-            build_meta(xml)
-            
-            scope.find_each(:batch_size => 300) do |product|
-              build_product(xml, product)
-            end
+      xml.rss(:version => '2.0', :"xmlns:g" => "http://base.google.com/ns/1.0") do
+        xml.channel do
+          build_meta(xml)
+          
+          ar_scope.find_each(:batch_size => 300) do |product|
+            build_product(xml, product)
           end
         end
       end
