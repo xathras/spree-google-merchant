@@ -108,15 +108,15 @@ module SpreeGoogleBase
       main_image, *more_images = product.master.images
 
       return unless main_image
-      xml.tag!('g:image_link', image_url(main_image))
+      xml.tag!('g:image_link', image_url(product, main_image))
 
       more_images.each do |image|
-        xml.tag!('g:additional_image_link', image_url(image))
+        xml.tag!('g:additional_image_link', image_url(product, image))
       end
     end
 
-    def image_url image
-      base_url = image.attachment.url(:large)
+    def image_url product, image
+      base_url = image.attachment.url(product.google_base_image_size)
       base_url = "#{domain}/#{base_url}" unless Spree::Config[:use_s3]
 
       base_url

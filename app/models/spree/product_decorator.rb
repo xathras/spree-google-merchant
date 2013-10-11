@@ -14,10 +14,8 @@ module Spree
       'in stock'
     end
 
-    def google_base_image_link
-      image = images.first and
-      image_path = image.attachment.url(:product) and
-      [Spree::GoogleBase::Config[:public_domain], image_path].join
+    def google_base_image_size
+      :large
     end
 
     def google_base_brand
