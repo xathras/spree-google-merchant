@@ -1,6 +1,6 @@
 <%= render :partial => 'spree/admin/shared/configuration_menu' %>
 
-<h1><%= t("google_base.export_settings") %></h1>
+<h1><%= Spree.t("google_base.export_settings") %></h1>
 
 <%= form_tag(admin_google_base_settings_path, :method => :put) do |f| %>
   <% [:title, :public_domain, :description, :ftp_username, 
@@ -9,8 +9,8 @@
   <% end %>
 
   <p class="form-buttons">
-    <%= button t('update') %> 
-    <%= t("or") %> <%= link_to t("cancel"), admin_google_base_settings_url %>
+    <%= button Spree.t('update') %> 
+    <%= Spree.t("or") %> <%= link_to Spree.t("cancel"), admin_google_base_settings_url %>
   </p>
 <% end %>
 

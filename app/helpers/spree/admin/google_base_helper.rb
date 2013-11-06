@@ -2,11 +2,11 @@ module Spree
   module Admin
     module GoogleBaseHelper
       def setting_presentation_row(setting, hide_value = false)
-        value = hide_value ? I18n.t(:not_shown) : Spree::GoogleBase::Config[setting].to_s
+        value = hide_value ? Spree.t(:not_shown) : Spree::GoogleBase::Config[setting].to_s
         value = "&mdash;" if value.blank?
         %(
         <tr>
-          <th scope="row">#{I18n.t(setting, :scope => :google_base)}:</th> 
+          <th scope="row">#{Spree.t(setting, :scope => :google_base)}:</th> 
           <td>#{value}</td>
         </tr>).html_safe
       end
