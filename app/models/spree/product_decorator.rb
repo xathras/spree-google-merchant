@@ -17,6 +17,22 @@ module Spree
     def google_base_image_size
       :large
     end
+    
+    def google_base_gtin
+      # Taken from github.com/romul/spree-solr-search
+      # app/models/spree/product_decorator.rb
+      #
+      pp = Spree::ProductProperty.first(
+        :joins => :property, 
+        :conditions => {
+          :product_id => self.id,
+          :spree_properties => {:name => 'gtin'}
+        }
+      )
+
+      pp ? pp.value : nil
+    end
+    
 
     def google_base_brand
       # Taken from github.com/romul/spree-solr-search

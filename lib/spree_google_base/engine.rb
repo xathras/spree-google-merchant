@@ -11,9 +11,11 @@ module SpreeGoogleBase
       SpreeGoogleBase::FeedBuilder::GOOGLE_BASE_ATTR_MAP = [
         ['g:id', 'id'],
         ['g:mpn', 'sku'],
+        ['g:gtin', 'google_base_gtin'],
         ['title', 'name'],
         ['description', 'google_base_description'],
         ['g:price', 'price'],
+        ['g:shipping_weight', 'weight'],
         ['g:condition', 'google_base_condition'],
         ['g:product_type', 'google_base_product_type'],
         ['g:brand', 'google_base_brand'],
