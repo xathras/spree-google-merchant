@@ -46,8 +46,8 @@ module SpreeGoogleBase
         generate_xml file
       end
 
-      # transfer_xml
-      # cleanup_xml
+      transfer_xml
+      cleanup_xml
     end
     
     def path
