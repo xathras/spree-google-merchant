@@ -41,13 +41,13 @@ module SpreeGoogleBase
 
     def generate_and_transfer_store
       delete_xml_if_exists
-
+      
       File.open(path, 'w') do |file| 
         generate_xml file
       end
 
-      transfer_xml
-      cleanup_xml
+      # transfer_xml
+      # cleanup_xml
     end
     
     def path

@@ -26,7 +26,7 @@ module Spree
         :joins => :property, 
         :conditions => {
           :product_id => self.id,
-          :spree_properties => {:name => 'gtin'}
+          :spree_properties => {:name => 'GTIN'}
         }
       )
 
