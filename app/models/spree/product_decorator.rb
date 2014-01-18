@@ -19,22 +19,14 @@ module Spree
     end
     
     def google_base_gtin
-      # Taken from github.com/romul/spree-solr-search
-      # app/models/spree/product_decorator.rb
-      #
-      pp = Spree::ProductProperty.first(
-        :joins => :property, 
-        :conditions => {
-          :product_id => self.id,
-          :spree_properties => {:name => 'GTIN'}
-        }
-      )
-
-      pp ? pp.value : nil
+      find_property('GTIN')
     end
     
-
     def google_base_brand
+      (Spree::Taxon.brands.to_a & taxons.to_a).first.try(:name) || find_property('brand') || Spree::Config.site_name
+    end
+    
+    def find_property(name)
       # Taken from github.com/romul/spree-solr-search
       # app/models/spree/product_decorator.rb
       #
@@ -42,12 +34,14 @@ module Spree
         :joins => :property, 
         :conditions => {
           :product_id => self.id,
-          :spree_properties => {:name => 'brand'}
+          :spree_properties => {:name => name}
         }
       )
 
-      pp ? pp.value : nil
+      pp ? pp.value : nil      
     end
+    
+      
 
     def google_base_product_type
       return google_base_taxon_type unless Spree::GoogleBase::Config[:enable_taxon_mapping]
